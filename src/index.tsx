@@ -1,13 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/client";
 import App from "./App";
 import { loadDevTools } from "jira-dev-tool";
+import { AppProviders } from "context";
+
+const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 
 loadDevTools(() =>
-  ReactDOM.render(
+  root.render(
     <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    document.getElementById("root")
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </React.StrictMode>
   )
 );
