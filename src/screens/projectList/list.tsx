@@ -1,4 +1,5 @@
 import { User } from "./searchPanel";
+import { Table } from "antd";
 
 interface Project {
   id: string;
@@ -15,24 +16,26 @@ interface ListProps {
 
 export const List = ({ users, list }: ListProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Supervisor</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
-              {users.find((user) => user.id === project.personId)?.name ||
-                "None"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "Name",
+          dataIndex: "name",
+        },
+        {
+          title: "Supervisor",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "None"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
   );
 };
