@@ -2,11 +2,12 @@
 import { User } from "./screens/projectList/searchPanel";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const localStorageKey = "__auto_provider_token__";
+const localStorageKey = "__auth_provider_token__";
 
 export const getToken = () => window.localStorage.getItem(localStorageKey);
 
 export const handleUserResp = ({ user }: { user: User }) => {
+  console.log("set item as " + user.token);
   window.localStorage.setItem(localStorageKey, user.token || "");
   return user;
 };

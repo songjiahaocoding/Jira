@@ -1,6 +1,6 @@
 import React from "react";
 import { ProjectListScreen } from "./screens/projectList";
-import { useAuth } from "./context/auth-context";
+import { useAuth } from "./context/authContext";
 
 export const AuthenticatedApp = () => {
   const { logout } = useAuth();
