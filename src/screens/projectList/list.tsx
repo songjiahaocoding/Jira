@@ -1,27 +1,34 @@
 import { User } from "./searchPanel";
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
+import dayjs from "dayjs";
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   personId: string;
   pin: boolean;
   organization: string;
+  created: number;
 }
 
-interface ListProps {
+interface ListProps extends TableProps<Project> {
   users: User[];
-  list: Project[];
 }
 
-export const List = ({ users, list }: ListProps) => {
+type PropsType = Omit<ListProps, "users">;
+export const List = ({ users, ...props }: ListProps) => {
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
       columns={[
         {
           title: "Name",
           dataIndex: "name",
+        },
+        {
+          title: "Department",
+          dataIndex: "organization",
         },
         {
           title: "Supervisor",
@@ -34,8 +41,20 @@ export const List = ({ users, list }: ListProps) => {
             );
           },
         },
+        {
+          title: "Create Time",
+          render(value, project) {
+            return (
+              <span>
+                {project.created
+                  ? dayjs(project.created).format("YYYY-MM-DD")
+                  : "None"}
+              </span>
+            );
+          },
+        },
       ]}
-      dataSource={list}
+      {...props}
     />
   );
 };
