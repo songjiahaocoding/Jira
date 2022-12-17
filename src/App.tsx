@@ -5,9 +5,12 @@ import { AuthenticatedApp } from "./authenticatedApp";
 import { UnauthenticatedApp } from "./unauthenticatedApp";
 import { ErrorBoundary } from "./components/errorBoundary";
 import { FullPageErrorFallback } from "./components/lib";
+import { useDocumentTitle } from "./utils";
 
 function App() {
   const { user } = useAuth();
+
+  useDocumentTitle("Jira");
 
   return (
     <div className="App">

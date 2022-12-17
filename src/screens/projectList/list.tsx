@@ -1,6 +1,7 @@
 import { User } from "./searchPanel";
 import { Table, TableProps } from "antd";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 export interface Project {
   id: string;
@@ -15,7 +16,6 @@ interface ListProps extends TableProps<Project> {
   users: User[];
 }
 
-type PropsType = Omit<ListProps, "users">;
 export const List = ({ users, ...props }: ListProps) => {
   return (
     <Table
@@ -24,7 +24,9 @@ export const List = ({ users, ...props }: ListProps) => {
       columns={[
         {
           title: "Name",
-          dataIndex: "name",
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: "Department",
