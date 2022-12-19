@@ -1,35 +1,49 @@
 import { SearchPanel } from "./searchPanel";
 import { List } from "./list";
-import { useState } from "react";
 import { useDebounce, useDocumentTitle } from "../../utils";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
+import { useProjectsSearchParams } from "./util";
+import { Row } from "../../components/lib";
 
-export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: "",
-    personId: "",
-  });
-  const debouncedParam = useDebounce(param, 200);
-
-  const { isLoading, error, data: list } = useProjects(debouncedParam);
+export const ProjectListScreen = (props: {
+  setProjectOpen: (isOpen: boolean) => void;
+}) => {
+  const [param, setParam] = useProjectsSearchParams();
+  const {
+    isLoading,
+    error,
+    data: list,
+    retry,
+  } = useProjects(useDebounce(param, 200));
   const { data: users } = useUsers();
 
   useDocumentTitle("Project List", false);
 
   return (
     <Container>
-      <h1>Project List</h1>
+      <Row between={true}>
+        <h1>Project List</h1>
+        <Button onClick={() => props.setProjectOpen}>Create Project</Button>
+      </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} users={users || []} dataSource={list || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        users={users || []}
+        dataSource={list || []}
+        setProjectOpen={props.setProjectOpen}
+      />
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;

@@ -9,7 +9,7 @@ export const useUsers = (param?: Partial<User>) => {
   const { run, ...res } = useAsync<User[]>();
 
   useEffect(() => {
-    run(client("user", { data: cleanObject(param || {}) }));
+    run(client("users", { data: cleanObject(param || {}) }));
   }, [param]);
 
   return res;

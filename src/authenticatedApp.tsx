@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProjectListScreen } from "./screens/projectList";
 import { useAuth } from "./context/authContext";
 import styled from "@emotion/styled";
-import { Row } from "./components/lib";
+import { ButtonNoPadding, Row } from "./components/lib";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown, MenuProps } from "antd";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./utils";
+import { ProjectModal } from "./screens/projectList/projectModal";
+import { ProjectPopOver } from "./components/projectPopOver";
 
 export const AuthenticatedApp = () => {
+  const [projectOpen, setProjectOpen] = useState(false);
+
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectOpen={setProjectOpen} />
       <Main>
         <Router>
           <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
+            <Route
+              path={"/projects"}
+              element={<ProjectListScreen setProjectOpen={setProjectOpen} />}
+            />
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
@@ -26,33 +33,38 @@ export const AuthenticatedApp = () => {
           </Routes>
         </Router>
       </Main>
+      <ProjectModal
+        projectOpen={projectOpen}
+        title={"Project Modal"}
+        close={() => setProjectOpen(false)}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: { setProjectOpen: (isOpen: boolean) => void }) => {
   const { logout, user } = useAuth();
+  const items: MenuProps["items"] = [
+    {
+      key: "logout",
+      label: (
+        <Button type={"link"} onClick={logout}>
+          Log out
+        </Button>
+      ),
+    },
+  ];
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
+        <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
-        </Button>
-        <h3>Projects</h3>
-        <h3>Users</h3>
+        </ButtonNoPadding>
+        <ProjectPopOver setProjectOpen={props.setProjectOpen} />
+        <span>Users</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key={"logout"}>
-                <Button type={"link"} onClick={logout}>
-                  Log out
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
+        <Dropdown menu={{ items }}>
           <Button type={"link"} onClick={(e) => e.preventDefault()}>
             Hi, {user?.name}
           </Button>
