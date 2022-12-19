@@ -17,13 +17,30 @@ export const AuthenticatedApp = () => {
 
   return (
     <Container>
-      <PageHeader setProjectOpen={setProjectOpen} />
+      <PageHeader
+        projectButton={
+          <ButtonNoPadding type={"link"} onClick={() => setProjectOpen(true)}>
+            Create Project
+          </ButtonNoPadding>
+        }
+      />
       <Main>
         <Router>
           <Routes>
             <Route
               path={"/projects"}
-              element={<ProjectListScreen setProjectOpen={setProjectOpen} />}
+              element={
+                <ProjectListScreen
+                  projectButton={
+                    <ButtonNoPadding
+                      type={"link"}
+                      onClick={() => setProjectOpen(true)}
+                    >
+                      Create Project
+                    </ButtonNoPadding>
+                  }
+                />
+              }
             />
             <Route
               path={"/projects/:projectId/*"}
@@ -42,7 +59,7 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = (props: { setProjectOpen: (isOpen: boolean) => void }) => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   const { logout, user } = useAuth();
   const items: MenuProps["items"] = [
     {
@@ -60,7 +77,7 @@ const PageHeader = (props: { setProjectOpen: (isOpen: boolean) => void }) => {
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        <ProjectPopOver setProjectOpen={props.setProjectOpen} />
+        <ProjectPopOver {...props} />
         <span>Users</span>
       </HeaderLeft>
       <HeaderRight>

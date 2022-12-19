@@ -8,9 +8,7 @@ import { useUsers } from "../../utils/user";
 import { useProjectsSearchParams } from "./util";
 import { Row } from "../../components/lib";
 
-export const ProjectListScreen = (props: {
-  setProjectOpen: (isOpen: boolean) => void;
-}) => {
+export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   const [param, setParam] = useProjectsSearchParams();
   const {
     isLoading,
@@ -26,7 +24,7 @@ export const ProjectListScreen = (props: {
     <Container>
       <Row between={true}>
         <h1>Project List</h1>
-        <Button onClick={() => props.setProjectOpen}>Create Project</Button>
+        {props.projectButton}
       </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
@@ -37,7 +35,7 @@ export const ProjectListScreen = (props: {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
-        setProjectOpen={props.setProjectOpen}
+        projectButton={props.projectButton}
       />
     </Container>
   );
