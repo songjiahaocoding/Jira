@@ -25,6 +25,11 @@ export const ProjectModal = () => {
     });
   };
 
+  const closeModal = () => {
+    form.resetFields();
+    close();
+  };
+
   const title = editingProject ? "Edit Project" : "Add Project";
 
   useEffect(() => {
@@ -35,7 +40,7 @@ export const ProjectModal = () => {
     <Modal
       open={projectModalOpen}
       confirmLoading={confirmLoading}
-      onCancel={close}
+      onCancel={closeModal}
       forceRender={true}
       footer={null}
     >

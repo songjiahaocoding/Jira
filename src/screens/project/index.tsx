@@ -14,7 +14,7 @@ export const ProjectScreen = () => {
       <Routes>
         <Route path={"/board"} element={<Board />} />
         <Route path={"/epic"} element={<Epic />} />
-        <Route path="*" element={<Navigate replace to="board" />} />
+        <Route path="*" element={<Navigate replace={true} to="board" />} />
       </Routes>
     </div>
   );
