@@ -17,49 +17,25 @@ export const AuthenticatedApp = () => {
 
   return (
     <Container>
-      <PageHeader
-        projectButton={
-          <ButtonNoPadding type={"link"} onClick={() => setProjectOpen(true)}>
-            Create Project
-          </ButtonNoPadding>
-        }
-      />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
-            <Route
-              path={"/projects"}
-              element={
-                <ProjectListScreen
-                  projectButton={
-                    <ButtonNoPadding
-                      type={"link"}
-                      onClick={() => setProjectOpen(true)}
-                    >
-                      Create Project
-                    </ButtonNoPadding>
-                  }
-                />
-              }
-            />
+            <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
             <Route path="*" element={<Navigate replace to="projects" />} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectOpen={projectOpen}
-        title={"Project Modal"}
-        close={() => setProjectOpen(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   );
 };
 
-const PageHeader = (props: { projectButton: JSX.Element }) => {
+const PageHeader = () => {
   const { logout, user } = useAuth();
   const items: MenuProps["items"] = [
     {
@@ -77,7 +53,7 @@ const PageHeader = (props: { projectButton: JSX.Element }) => {
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        <ProjectPopOver {...props} />
+        <ProjectPopOver />
         <span>Users</span>
       </HeaderLeft>
       <HeaderRight>
