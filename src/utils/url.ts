@@ -1,18 +1,20 @@
 import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
-import { useMemo } from "react";
-import { cleanObject } from "./index";
+import { useMemo, useState } from "react";
+import { cleanObject, subset } from "./index";
 
 // return the specific param in the URL
 export const useUrlQueryParam = <V extends string>(keys: V[]) => {
-  const [searchParams, setSearchParam] = useSearchParams();
   const setSearchParams = useSetUrlSearchParam();
+  const [searchParams] = useSearchParams();
+  const [stateKeys] = useState(keys);
+
   return [
     useMemo(
       () =>
-        keys.reduce((prev, key) => {
-          return { ...prev, [key]: searchParams.get(key) || "" };
-        }, {} as { [key in V]: string }),
-      [searchParams]
+        subset(Object.fromEntries(searchParams), stateKeys) as {
+          [key in V]: string;
+        },
+      [searchParams, stateKeys]
     ),
     (params: Partial<{ [key in V]: unknown }>) => {
       return setSearchParams(params);
@@ -22,11 +24,14 @@ export const useUrlQueryParam = <V extends string>(keys: V[]) => {
 
 export const useSetUrlSearchParam = () => {
   const [searchParams, setSearchParam] = useSearchParams();
+
   return (params: { [key in string]: unknown }) => {
-    const o = cleanObject({
-      ...Object.fromEntries(searchParams),
-      ...params,
-    }) as URLSearchParamsInit;
-    return setSearchParam(o);
+    return (params: { [key in string]: unknown }) => {
+      const o = cleanObject({
+        ...Object.fromEntries(searchParams),
+        ...params,
+      }) as URLSearchParamsInit;
+      return setSearchParam(o);
+    };
   };
 };
