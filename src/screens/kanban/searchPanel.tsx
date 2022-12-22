@@ -1,5 +1,5 @@
 import React from "react";
-import { useTasksSearchParams } from "screens/board/util";
+import { useTasksSearchParams } from "screens/kanban/util";
 import { useSetUrlSearchParam } from "utils/url";
 import { Row } from "components/lib";
 import { Button, Input } from "antd";

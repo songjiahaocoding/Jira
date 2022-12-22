@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { ProjectListScreen } from "./screens/projectList";
 import { useAuth } from "./context/authContext";
 import styled from "@emotion/styled";
 import { ButtonNoPadding, Row } from "./components/lib";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Button, Dropdown, MenuProps } from "antd";
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./utils";
@@ -13,8 +13,6 @@ import { ProjectModal } from "./screens/projectList/projectModal";
 import { ProjectPopOver } from "./components/projectPopOver";
 
 export const AuthenticatedApp = () => {
-  const [projectOpen, setProjectOpen] = useState(false);
-
   return (
     <Container>
       <Router>
@@ -26,7 +24,7 @@ export const AuthenticatedApp = () => {
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
-            <Route path="*" element={<Navigate replace to="projects" />} />
+            <Route index element={<ProjectListScreen />} />
           </Routes>
         </Main>
         <ProjectModal />
@@ -87,7 +85,10 @@ const HeaderLeft = styled(Row)`
 `;
 const HeaderRight = styled(Row)``;
 
-const Main = styled.main``;
+const Main = styled.main`
+  display: flex;
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   display: grid;

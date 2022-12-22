@@ -1,11 +1,13 @@
+import React from "react";
 import { Dropdown, Menu, Modal, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { Pin } from "../../components/pin";
-import { useDeleteProject, useEditProject } from "../../utils/project";
+import { Pin } from "components/pin";
+import { useDeleteProject, useEditProject } from "utils/project";
 import { useProjectModal, useProjectQueryKey } from "./util";
-import { Project } from "../../types/project";
-import { User } from "../../types/user";
+import { Project } from "types/project";
+import { User } from "types/user";
+import { ButtonNoPadding } from "components/lib";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
@@ -34,7 +36,9 @@ export const List = ({ users, ...props }: ListProps) => {
         {
           title: "Name",
           render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>;
+            return (
+              <Link to={`projects/${String(project.id)}`}>{project.name}</Link>
+            );
           },
         },
         {
@@ -105,7 +109,7 @@ const More = ({ project }: { project: Project }) => {
         </Menu>
       }
     >
-      <span>...</span>
+      <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
     </Dropdown>
   );
 };
