@@ -5,8 +5,10 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
+  useReorderTaskConfig,
 } from "./useOptimisticOptions";
 import { Project } from "../types/project";
+import { SortProps } from "./kanban";
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
@@ -58,4 +60,14 @@ export const useTask = (id?: number) => {
   return useQuery<Project>(["task", { id }], () => client(`tasks/${id}`), {
     enabled: Boolean(id),
   });
+};
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation((params: SortProps) => {
+    return client("tasks/reorder", {
+      data: params,
+      method: "POST",
+    });
+  }, useReorderTaskConfig(queryKey));
 };

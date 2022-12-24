@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Routes, Route, useLocation } from "react-router";
 import { Kanban } from "../kanban";
-import { Epic } from "../epic";
+import { EpicScreen } from "../epic";
 import styled from "@emotion/styled";
 import { Menu } from "antd";
 
@@ -28,7 +28,7 @@ export const ProjectScreen = () => {
       <Main>
         <Routes>
           <Route path={"/kanban"} element={<Kanban />} />
-          <Route path={"/epic"} element={<Epic />} />
+          <Route path={"/epic"} element={<EpicScreen />} />
           <Route index element={<Kanban />} />
         </Routes>
       </Main>

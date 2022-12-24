@@ -88,6 +88,7 @@ const HeaderRight = styled(Row)``;
 const Main = styled.main`
   display: flex;
   overflow: hidden;
+  width: 100%;
 `;
 
 const Container = styled.div`
