@@ -11,6 +11,7 @@ import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./utils";
 import { ProjectModal } from "./screens/projectList/projectModal";
 import { ProjectPopOver } from "./components/projectPopOver";
+import { UserPopover } from "./components/userPopOver";
 
 export const AuthenticatedApp = () => {
   return (
@@ -52,7 +53,7 @@ const PageHeader = () => {
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
         <ProjectPopOver />
-        <span>Users</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <Dropdown menu={{ items }}>
@@ -65,30 +66,18 @@ const PageHeader = () => {
   );
 };
 
-const HeaderItem = styled.h3`
-  margin-right: 3rem;
-`;
-
 const Header = styled(Row)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   padding: 3.2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
 
-const HeaderLeft = styled(Row)`
-  display: flex;
-  align-items: center;
-`;
+const HeaderLeft = styled(Row)``;
 const HeaderRight = styled(Row)``;
 
 const Main = styled.main`
   display: flex;
   overflow: hidden;
-  width: 100%;
 `;
 
 const Container = styled.div`
